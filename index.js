@@ -45,6 +45,16 @@ async function run() {
       
       res.send(result);
     })
+
+
+     app.get("/taskDetail/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await taskCollection.findOne(query);
+      console.log(result);
+      
+      res.send(result);
+    })
     app.post("/task", async (req, res) => {
       const newTask = req.body;
       console.log(newTask);
@@ -52,14 +62,17 @@ async function run() {
       res.send(result)
     })
 
-    app.put("/coffees/:id", async (req, res) => {
+    app.patch("/post/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const updatedCoffee = req.body;
-      const updatedDoc = {
-        $set: updatedCoffee
+      const bids = req.body;
+      const options = { upsert: true };
+      const bidsUser = {
+        $set: bids
       }
-      const result = await coffeeCollection.updateOne(query, updatedDoc)
+      const result = await taskCollection.updateOne(query, bidsUser, options)
+      console.log(result);
+      
       res.send(result)
     })
 
