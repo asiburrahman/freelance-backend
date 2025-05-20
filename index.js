@@ -29,24 +29,26 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const coffeeCollection = client.db('freelancer').collection('task')
+    const taskCollection = client.db('freelancer').collection('task')
     const userCollection = client.db('freelancer').collection('users')
 
     app.get("/task", async (req, res) => {
-      const result = await coffeeCollection.find().toArray();
+      const result = await taskCollection.find().toArray();
       res.send(result);
     })
 
-    app.get("/coffees/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await coffeeCollection.findOne(query)
+    app.get("/task/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email : email };
+      const result = await taskCollection.find(query).toArray();
+      console.log(result);
+      
       res.send(result);
     })
-    app.post("/coffees", async (req, res) => {
-      const newCoffee = req.body;
-      console.log(newCoffee);
-      const result = await coffeeCollection.insertOne(newCoffee)
+    app.post("/task", async (req, res) => {
+      const newTask = req.body;
+      console.log(newTask);
+      const result = await taskCollection.insertOne(newTask)
       res.send(result)
     })
 
