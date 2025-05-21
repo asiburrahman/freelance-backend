@@ -41,7 +41,7 @@ async function run() {
       const email = req.params.email;
       const query = { email : email };
       const result = await taskCollection.find(query).toArray();
-      console.log(result);
+      // console.log(result);
       
       res.send(result);
     })
@@ -57,10 +57,11 @@ async function run() {
     })
     app.post("/task", async (req, res) => {
       const newTask = req.body;
-      console.log(newTask);
+      // console.log(newTask);
       const result = await taskCollection.insertOne(newTask)
       res.send(result)
     })
+
 
     app.patch("/post/:id", async (req, res) => {
       const id = req.params.id;
@@ -71,16 +72,20 @@ async function run() {
         $set: bids
       }
       const result = await taskCollection.updateOne(query, bidsUser, options)
-      console.log(result);
+      // console.log(result);
       
       res.send(result)
     })
 
 
-    app.delete('/coffees/:id', async (req, res) => {
+    // delete mytask 
+
+    app.delete('/myTask/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await coffeeCollection.deleteOne(query);
+      const result = await taskCollection.deleteOne(query);
+      console.log(result);
+      
       res.send(result)
 
     })
