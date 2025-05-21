@@ -33,13 +33,15 @@ async function run() {
     const userCollection = client.db('freelancer').collection('users')
 
     app.get("/task", async (req, res) => {
-      const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
+      const result = await taskCollection.find().toArray();
       res.send(result);
+     // console.log(result);
+      
     })
 
 
     app.get("/recentTasks", async (req, res) => {
-      const result = await taskCollection.find().toArray();
+      const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
       res.send(result);
     })
 
