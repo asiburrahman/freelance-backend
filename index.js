@@ -32,7 +32,7 @@ async function run() {
     const taskCollection = client.db('freelancer').collection('task')
     const userCollection = client.db('freelancer').collection('users')
 
-    app.get("/task", async (req, res) => {
+    app.get("./task", async (req, res) => {
       const result = await taskCollection.find().toArray();
       res.send(result);
      // console.log(result);
@@ -40,7 +40,7 @@ async function run() {
     })
 
 
-    app.get("/recentTasks", async (req, res) => {
+    app.get("./recentTasks", async (req, res) => {
       const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
       res.send(result);
     })
@@ -117,27 +117,8 @@ async function run() {
       res.send(result)
 
     })
-    // save user data 
-    app.post("/users", async (req, res) => {
-      const newUser = req.body;
-      console.log(newUser);
-      const result = await userCollection.insertOne(newUser)
-      res.send(result)
-    })
-    // Get user Data
-    app.get("/users", async (req, res) => {
-      const result = await userCollection.find().toArray();
-      res.send(result);
-    })
-
-    // Delete User Data 
-    app.delete('/users/:id', async(req, res)=> {
-        const id = req.params.id;
-        const query = {_id: new ObjectId(id)};
-        const result = await userCollection.deleteOne(query);
-        res.send(result)
-    })
-
+    
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 
     // Send a ping to confirm a successful connection
@@ -151,9 +132,6 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/', (req, res) => {
-  res.send('Coffe shope backend')
-})
 
 app.listen(port, () => {
   console.log("Freelancer server is running on port", port);
