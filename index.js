@@ -33,6 +33,12 @@ async function run() {
     const userCollection = client.db('freelancer').collection('users')
 
     app.get("/task", async (req, res) => {
+      const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
+      res.send(result);
+    })
+
+
+    app.get("/recentTasks", async (req, res) => {
       const result = await taskCollection.find().toArray();
       res.send(result);
     })
@@ -79,15 +85,24 @@ async function run() {
       
       res.send(result)
     })
-    // show user data for update 
-     app.get("/updateTask/:email", async (req, res) => {
-      const email = req.params.email;
-      const query = { email: email };
-      const result = await taskCollection.findOne(query);
-      console.log(result);
+
+
+        // update mytask 
+
+        app.put("/updateTask/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const userData = req.body;
+      const bidsUser = {
+        $set: req.body
+      }
+      const result = await taskCollection.updateOne(query, bidsUser)
+      // console.log(result);
       
-      res.send(result);
+      res.send(result)
+      result
     })
+
 
     // delete mytask 
 
