@@ -27,12 +27,12 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    
 
     const taskCollection = client.db('freelancer').collection('task')
     const userCollection = client.db('freelancer').collection('users')
 
-    app.get("./task", async (req, res) => {
+    app.get("/task", async (req, res) => {
       const result = await taskCollection.find().toArray();
       res.send(result);
      // console.log(result);
@@ -40,7 +40,7 @@ async function run() {
     })
 
 
-    app.get("./recentTasks", async (req, res) => {
+    app.get("/recentTasks", async (req, res) => {
       const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
       res.send(result);
     })
@@ -72,6 +72,15 @@ async function run() {
       const result = await taskCollection.insertOne(newTask)
       res.send(result)
     })
+
+
+    //  // add a User 
+    // app.post("/user", async (req, res) => {
+    //   const newTask = req.body;
+    //   // console.log(newTask);
+    //   const result = await taskCollection.insertOne(newTask)
+    //   res.send(result)
+    // })
 
 // Update BID count data 
     app.patch("/post/:id", async (req, res) => {
@@ -122,7 +131,6 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
