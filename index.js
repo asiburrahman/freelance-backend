@@ -30,7 +30,7 @@ async function run() {
     
 
     const taskCollection = client.db('freelancer').collection('task')
-    const userCollection = client.db('freelancer').collection('users')
+    const userCollection = client.db('freelancer').collection('user')
 
     app.get("/task", async (req, res) => {
       const result = await taskCollection.find().toArray();
@@ -74,13 +74,13 @@ async function run() {
     })
 
 
-    //  // add a User 
-    // app.post("/user", async (req, res) => {
-    //   const newTask = req.body;
-    //   // console.log(newTask);
-    //   const result = await taskCollection.insertOne(newTask)
-    //   res.send(result)
-    // })
+     // add a User 
+    app.post("/user", async (req, res) => {
+      const user = req.body;
+      // console.log(newTask);
+      const result = await userCollection.insertOne(user)
+      res.send(result)
+    })
 
 // Update BID count data 
     app.patch("/post/:id", async (req, res) => {
