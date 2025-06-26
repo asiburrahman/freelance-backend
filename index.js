@@ -41,7 +41,7 @@ async function run() {
 
 
     app.get("/recentTasks", async (req, res) => {
-      const result = await taskCollection.find().sort({ date: 1 }).limit(6).toArray();
+      const result = await taskCollection.find().sort({ date: 1 }).limit(8).toArray();
       res.send(result);
     })
 
